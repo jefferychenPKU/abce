@@ -146,7 +146,7 @@ class Agent(Database, Logger, Trade, Messaging, multiprocessing.Process):
                 if have[good] > 5:
                     rich = True
         """
-        return {good: self._haves[good] for good in list_of_goods}
+        return dict([(good, self._haves[good]) for good in list_of_goods])
 
     def possessions_all(self):
         """ returns all possessions """

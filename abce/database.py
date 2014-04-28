@@ -71,7 +71,7 @@ class Database:
             :meth:`~abecagent.Database.observe_begin`:
 
         """
-        data_to_write = {'%s_%s' % (action_name, key): data_to_log[key] for key in data_to_log}
+        data_to_write = dict([('%s_%s' % (action_name, key), data_to_log[key]) for key in data_to_log])
         data_to_write['id'] = self.idn
         self.database_connection.send("log", zmq.SNDMORE)
         self.database_connection.send(self.group, zmq.SNDMORE)

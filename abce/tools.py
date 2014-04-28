@@ -25,8 +25,11 @@ sufficiently close to zero or not.
 
 This file also defines the :exc:`tools.NotEnoughGoods`
 """
-from sys import float_info
-epsilon = 10000 * float_info.epsilon
+try:
+    from sys import float_info
+    epsilon = 10000 * float_info.epsilon
+except ImportError:
+    from org.python.core.util.ExtraMath import EPSILON as epsilon
 
 
 def agent_name(group_name, idn):

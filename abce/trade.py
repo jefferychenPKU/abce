@@ -34,10 +34,8 @@ Messaging between agents:
 """
 from __future__ import division
 from collections import defaultdict
-import numpy as np
 from random import shuffle
-from abce.tools import is_zero, is_positive, is_negative, NotEnoughGoods, epsilon
-save_err = np.seterr(invalid='ignore')
+from tools import is_positive, is_negative, NotEnoughGoods, epsilon
 
 
 def Offer(sender_group, sender_idn, receiver_group, receiver_idn, good, quantity, price, buysell, idn):
