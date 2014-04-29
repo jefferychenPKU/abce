@@ -79,7 +79,7 @@ class FirmMultiTechnologies:
                 raise NotEnoughGoods(self.name, good, (input_goods[good] - self._haves[good]))
         for good in production_function['input']:
             self._haves[good] -= input_goods[good]
-        goods_vector = {good: 0 for good in production_function['output']}
+        goods_vector = dict([(good, 0) for good in production_function['output']])
         goods_vector.update(input_goods)
         exec(production_function['code'], {}, goods_vector)
         for good in production_function['output']:

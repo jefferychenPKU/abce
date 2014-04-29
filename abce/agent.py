@@ -33,7 +33,6 @@ Messaging between agents:
 .. [1] or :class:`abce.agent.FirmMultiTechnologies` for simulations with complex technologies.
 """
 from __future__ import division
-from collections import OrderedDict, defaultdict
 from abce.tools import *
 import jzmq as zmq
 try:
@@ -41,6 +40,11 @@ try:
 except ImportError:
     from threading import Thread as Process
 from collections import defaultdict
+try:
+    from collections import OrderedDict
+except ImportError:
+    from ordereddict import OrderedDict
+from tools import *
 from inspect import getmembers, ismethod
 from database import Database
 from logger import Logger
@@ -229,12 +233,12 @@ class Agent(Database, Logger, Trade, Messaging, Process):
         recent_answerd_offers = OrderedDict()
         try:
             while True:
-                offer_id, offer = next(offer_iterator)
+                offer_id, offer = offer_iterator.next()
                 if offer['round'] == self.round:  # message from prelast round
                     recent_answerd_offers[offer_id] = offer
                     break
             while True:
-                offer_id, offer = next(offer_iterator)
+                offer_id, offer = offer_iterator.next()
                 recent_answerd_offers[offer_id] = offer
         except StopIteration:
             self._answered_offers = recent_answerd_offers
