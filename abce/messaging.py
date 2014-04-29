@@ -151,7 +151,9 @@ class Messaging:
             shuffle(self._msgs[topic])
         except KeyError:
             self._msgs[topic] = []
-        return self._msgs.pop(topic)
+        ret = self._msgs[topic]
+        del self._msgs[topic]
+        return ret
 
     def get_messages_all(self):
         """ returns all messages irregardless of the topic, in a dictionary by topic
@@ -173,7 +175,9 @@ class Messaging:
         is not affected by the order
         """
         try:
-            return self._msgs.pop(topic)
+            ret = self._msgs[topic]
+            del self._msgs[topic]
+            return ret
         except KeyError:
             return []
 
