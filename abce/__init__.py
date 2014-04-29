@@ -42,21 +42,22 @@ import csv
 import datetime
 import os
 import time
-import zmq
+import jzmq
 import inspect
 from abce.tools import agent_name, group_address
-import multiprocessing
-import abce.db
 import abce.abcelogger
 import itertools
 import postprocess
 from glob import glob
 import subround
-
 from firm import *
 from firmmultitechnologies import *
 from household import *
 from agent import *
+try:
+    from multiprocessing import Process
+except ImportError:
+    from threading import Thread as Process
 
 BASEPATH = os.path.dirname(os.path.realpath(__file__))
 
@@ -863,9 +864,9 @@ class repeat_while:
         #TODO implement repeat_while
 
 
-class _Communication(multiprocessing.Process):
+class _Communication(Process):
     def __init__(self, _addresses):
-        multiprocessing.Process.__init__(self)
+        Process.__init__(self)
         self._addresses = _addresses
 
     def run(self):

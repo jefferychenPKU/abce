@@ -33,18 +33,20 @@ Messaging between agents:
 .. [1] or :class:`abceagent.FirmMultiTechnologies` for simulations with complex technologies.
 """
 from __future__ import division
-import zmq
-import multiprocessing
-from collections import OrderedDict, defaultdict
 from abce.tools import *
+import jzmq as zmq
+try:
+    from multiprocessing import Process
+except ImportError:
+    from threading import Thread as Process
+from collections import defaultdict
 
 
-class Subround(multiprocessing.Process):
-    """ If you initate an agent of this class it tells you approximately in
-    which subround you are
+class Subround(Process):
+    """ with simulation.debug_subround(), you can monitor in which subround the program is. (it sometimes lags)
     """
     def __init__(self, _addresses):
-        multiprocessing.Process.__init__(self)
+        Process.__init__(self)
         self._addresses = _addresses
         self.round = 0
 

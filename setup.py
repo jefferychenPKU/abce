@@ -7,7 +7,7 @@ import os
 
 setup(
       name='abce',
-      version='0.3',
+      version='j0.4',
       author='Davoud Taghawi-Nejad',
       author_email='Davoud@Taghawi-Nejad.de',
       description='Agent-Based Complete Economy modelling platform',

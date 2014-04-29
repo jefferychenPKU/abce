@@ -27,9 +27,7 @@ from __future__ import division
 import compiler
 import pyparsing as pp
 from collections import defaultdict
-import numpy as np
 from abce.tools import epsilon, NotEnoughGoods
-save_err = np.seterr(invalid='ignore')
 
 
 class FirmMultiTechnologies:

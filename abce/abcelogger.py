@@ -14,15 +14,17 @@
 # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 # License for the specific language governing permissions and limitations under
 # the License.
-import zmq
-import multiprocessing
+import jzmq as zmq
+try:
+    from multiprocessing import Process
+except ImportError:
+    from threading import Thread as Process
 import csv
-import numpy as np
 
 
-class AbceLogger(multiprocessing.Process):
+class AbceLogger(Process):
     def __init__(self, directory, db_name, _addresses):
-        multiprocessing.Process.__init__(self)
+        Process.__init__(self)
         self._addresses = _addresses
         self.file = open(directory + '/network.csv', 'wb')
         self.network_log = csv.writer(self.file, delimiter=',',

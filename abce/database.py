@@ -33,10 +33,7 @@ Messaging between agents:
 .. [1] or :class:`abceagent.FirmMultiTechnologies` for simulations with complex technologies.
 """
 from __future__ import division
-import zmq
-import numpy as np
-save_err = np.seterr(invalid='ignore')
-
+import jzmq as zmq
 
 class Database:
     """ The database class """

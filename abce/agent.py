@@ -33,23 +33,23 @@ Messaging between agents:
 .. [1] or :class:`abce.agent.FirmMultiTechnologies` for simulations with complex technologies.
 """
 from __future__ import division
-import zmq
-import multiprocessing
-import compiler
-import pyparsing as pp
 from collections import OrderedDict, defaultdict
-import numpy as np
 from abce.tools import *
+import jzmq as zmq
+try:
+    from multiprocessing import Process
+except ImportError:
+    from threading import Thread as Process
+from collections import defaultdict
 from inspect import getmembers, ismethod
-from random import shuffle
-save_err = np.seterr(invalid='ignore')
 from database import Database
 from logger import Logger
 from trade import Trade, Offer
 from messaging import Messaging, Message
 
 
-class Agent(Database, Logger, Trade, Messaging, multiprocessing.Process):
+
+class Agent(Database, Logger, Trade, Messaging, Process):
     """ Every agent has to inherit this class. It connects the agent to the simulation
     and to other agent. The :class:`abceagent.Trade`, :class:`abceagent.Database` and
     :class:`abceagent.Messaging` classes are included. You can enhance an agent, by also
@@ -63,7 +63,7 @@ class Agent(Database, Logger, Trade, Messaging, multiprocessing.Process):
             abceagent.Agent.__init__(self, *_pass_to_engine)
     """
     def __init__(self, idn, group, _addresses, trade_logging):
-        multiprocessing.Process.__init__(self)
+        Process.__init__(self)
         self.idn = idn
         self.name = '%s_%i:' % (group, idn)
         self.name_without_colon = '%s_%i' % (group, idn)
@@ -214,7 +214,7 @@ class Agent(Database, Logger, Trade, Messaging, multiprocessing.Process):
         """ registers all actions of the Agent, which do not start with '_' """
         for method in getmembers(self):
             if (ismethod(method[1]) and
-                    not(method[0] in vars(Agent) or method[0].startswith('_') or method[0] in vars(multiprocessing.Process))):
+                    not(method[0] in vars(Agent) or method[0].startswith('_') or method[0] in vars(Process))):
                 self._methods[method[0]] = method[1]
             self._methods['_advance_round'] = self._advance_round
             self._methods['_clearing__end_of_subround'] = self._clearing__end_of_subround

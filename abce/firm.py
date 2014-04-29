@@ -19,9 +19,8 @@ The Firm class gives an Agent the ability to set production functions and
 produce.
 """
 from __future__ import division
-import numpy as np
 from firmmultitechnologies import FirmMultiTechnologies
-save_err = np.seterr(invalid='ignore')
+
 
 
 class Firm(FirmMultiTechnologies):
