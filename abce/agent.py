@@ -48,7 +48,6 @@ from trade import Trade, Offer
 from messaging import Messaging, Message
 
 
-
 class Agent(Database, Logger, Trade, Messaging, Process):
     """ Every agent has to inherit this class. It connects the agent to the simulation
     and to other agent. The :class:`abceagent.Trade`, :class:`abceagent.Database` and
