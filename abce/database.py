@@ -185,4 +185,3 @@ class Database:
         self.database_connection.send(self.group, zmq.SNDMORE)
         self.database_connection.send_pyobj(data_to_write, zmq.SNDMORE)
         self.database_connection.send(str(self.round))
-
