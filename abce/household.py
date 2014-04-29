@@ -19,7 +19,10 @@ The Household class extends the agent by giving him utility functions and the ab
 """
 from __future__ import division
 import compiler
-import pyparsing as pp
+try:
+    import pyparsing as pp
+except ImportError:
+    pass
 from tools import epsilon
 
 
@@ -111,11 +114,14 @@ class Household:
 
         //exponential is ** not ^
         """
-        parse_single_input = pp.Suppress(pp.Word(pp.alphas + "_", pp.alphanums + "_")) + pp.Suppress('=') \
-                + pp.OneOrMore(pp.Suppress(pp.Optional(pp.Word(pp.nums + '*/+-().[]{} ')))
-                + pp.Word(pp.alphas + "_", pp.alphanums + "_"))
-        parse_input = pp.delimitedList(parse_single_input, ';')
-
+        try:
+            parse_single_input = pp.Suppress(pp.Word(pp.alphas + "_", pp.alphanums + "_")) + pp.Suppress('=') \
+                    + pp.OneOrMore(pp.Suppress(pp.Optional(pp.Word(pp.nums + '*/+-().[]{} ')))
+                    + pp.Word(pp.alphas + "_", pp.alphanums + "_"))
+            parse_input = pp.delimitedList(parse_single_input, ';')
+        except NameError:
+            print('pyparsing could not be loaded without pyparsing, set_utility_function does not work use set_utility_function_fast instead')
+            raise
         self._utility_function = {}
         self._utility_function['type'] = typ
         self._utility_function['formula'] = formula
