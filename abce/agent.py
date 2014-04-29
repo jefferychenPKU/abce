@@ -39,6 +39,8 @@ try:
     from multiprocessing import Process
 except ImportError:
     from threading import Thread as Process
+    if not hasattr(Process, 'is_alive'):
+        Process.is_alive = Process.isAlive
 from collections import defaultdict
 try:
     from collections import OrderedDict
