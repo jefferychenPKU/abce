@@ -33,7 +33,6 @@ Messaging between agents:
 .. [1] or :class:`abce.agent.FirmMultiTechnologies` for simulations with complex technologies.
 """
 from __future__ import division
-from abce.tools import *
 import jzmq as zmq
 try:
     from multiprocessing import Process
@@ -235,6 +234,7 @@ class Agent(Database, Logger, Trade, Messaging, Process):
         recent_answerd_offers = OrderedDict()
         try:
             while True:
+
                 offer_id, offer = offer_iterator.next()
                 if offer['round'] == self.round:  # message from prelast round
                     recent_answerd_offers[offer_id] = offer
@@ -334,7 +334,7 @@ class Agent(Database, Logger, Trade, Messaging, Process):
             try:
                 self.commands.recv()  # catches the group adress.
             except KeyboardInterrupt:
-                print('KeyboardInterrupt: %s, Last command: %s in self.commands.recv() to catch own adress ~1888' % (self.name, command))
+                print('KeyboardInterrupt: %s,self.commands.recv() to catch own adress ~1888' % (self.name))
                 break
             command = self.commands.recv()
             if command == "!":

@@ -48,7 +48,7 @@ class FirmMultiTechnologies:
 
             self.produce_use_everything(car_production_function)
         """
-        return self.produce(production_function, dict([(inp, self.possession(inp)) for inp in production_function['input']])
+        return self.produce(production_function, dict([(inp, self.possession(inp)) for inp in production_function['input']]))
 
     def produce(self, production_function, input_goods):
         """ Produces output goods given the specified amount of inputs.
