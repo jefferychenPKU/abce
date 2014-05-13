@@ -70,5 +70,7 @@ class Subround(Process):
                 print(subcommand)
                 if subcommand == 'die':
                     break
-            print(command, address)
+            print("%s %s" % (address, command))
+            if command == '_produce_resource_rent_and_labor':
+                print("X creates X units of X", self.commands.recv_multipart())
 
