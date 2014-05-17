@@ -188,6 +188,7 @@ class Simulation:
         self.num_agents_in_group = {}
         self._build_first_run = True
         self._agent_parameters = None
+        self.database_name = 'database'
 
         from config import zmq_transport #pylint: disable=E0611
         if zmq_transport == 'inproc':
@@ -231,7 +232,7 @@ class Simulation:
         self.communication_channel = self.context.socket(zmq.PUSH)
         self.communication_channel.connect(self._addresses_connect['frontend'])
         self._register_action_groups()
-        self._db = abce.db.Database(simulation_parameters['_path'], 'database', self._addresses_bind['database'])
+        self._db = abce.db.Database(simulation_parameters['_path'], self.database_name, self._addresses_bind['database'])
         self._logger = abce.abcelogger.AbceLogger(simulation_parameters['_path'], 'logger', self._addresses_bind['logger'])
         self._db.start()
         self._logger.start()
@@ -531,7 +532,7 @@ class Simulation:
             time.sleep(0.05)
         while self._communication.is_alive():
             time.sleep(0.025)
-        postprocess.to_r_and_csv(os.path.abspath(self.simulation_parameters['_path']), BASEPATH)
+        postprocess.to_r_and_csv(os.path.abspath(self.simulation_parameters['_path']), self.database_name)
         self.context.destroy()
 
     def _make_ask_each_agent_in(self, action):
