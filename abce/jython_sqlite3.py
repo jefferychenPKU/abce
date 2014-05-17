@@ -1,6 +1,6 @@
 try:
     import sqlite3
-    from sqlite3 import * #pylint: disable=W0614
+    from sqlite3 import * #pylint: disable=W0614,W0401
 
 
     class CustomConnect:

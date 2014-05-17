@@ -29,7 +29,7 @@ except ImportError:
 class Database(Process):
     def __init__(self, directory, db_name, _address_bind):
         Process.__init__(self)
-        self.database = sqlite3.Connect(directory, db_name)
+        self.database = sqlite3.CustomConnect(directory, db_name)
         self.database.execute('PRAGMA synchronous=OFF')
         self.database.execute('PRAGMA journal_mode=OFF')
         self.database.execute('PRAGMA count_changes=OFF')
