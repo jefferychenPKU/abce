@@ -42,28 +42,25 @@ import csv
 import datetime
 import os
 import time
-import jzmq
+import jzmq as zmq
 import inspect
-from abce.tools import agent_name, group_address
-import abce.db
-import abce.abcelogger
+from tools import agent_name, group_address
+import db
+import abcelogger
 import itertools
 import postprocess
 from glob import glob
-import subround
+import subround as subround
 from firm import Firm
-from firmmultitechnologies import *
-from household import *
-from agent import *
+#from firmmultitechnologies import FirmMultitechnologies
+from household import Household
+from agent import Agent
 import db
-
+from _communication import _Communication
 try:
     from multiprocessing import Process
 except ImportError:
     from threading import Thread as Process
-
-BASEPATH = os.path.dirname(os.path.realpath(__file__))
-
 
 def read_parameters(parameters_file='simulation_parameters.csv', delimiter='\t', quotechar='"'):
     """ reads a parameter file line by line and gives a list. Where each line
@@ -694,7 +691,7 @@ class Simulation:
 
     def debug_subround(self):
         self.subround = subround.Subround(self._addresses_connect)
-        self.subround.name ="debug_subround"
+        self.subround.name = "debug_subround"
         self.subround.start()
 
     def _advance_round_agents(self):
