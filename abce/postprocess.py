@@ -6,8 +6,10 @@ sam(t), returns the social accounting matrix at time t
 sam_ext(t), returns the social accounting matrix at time t for every individual agent
 """
 import os
-import pylab
-import numpy
+try:
+    import numpy
+except ImportError:
+    pass
 import abce.jython_sqlite3 as sqlite3
 import csv
 
@@ -43,9 +45,9 @@ def to_r_and_csv(directory, db_name, csv=True): #pylint: disable=R0914
 
     try: #MONKY PATCH why does this not work in python???, I numpy is not available in JYTHON, so NameError-try/catch is necessary
         tables = numpy.recarray(table_contents, dtype=zip(column_names, column_types)) #pylint: disable=E1101
-    except (TypeError, ValueError) as e:
+    except (TypeError, ValueError):
         if DEBUG:
-            print("irrelevant - numpy.recarray error: ", e)
+            print("irrelevant - numpy.recarray error: ")
         tables = [dict([(key, cell) for key, cell in zip(column_names, row)]) for row in table_contents]
     except NameError:
         tables = [dict([(key, cell) for key, cell in zip(column_names, row)]) for row in table_contents]
@@ -53,25 +55,25 @@ def to_r_and_csv(directory, db_name, csv=True): #pylint: disable=R0914
 
 
 def table_to_file(table_name, column_names, table_contents):
-    with open(os.path.join('.', table_name + '.csv'), 'w') as csv_file:
-        csv_writer = csv.writer(csv_file)
-        csv_writer.writerow(column_names)
-        for row in table_contents:
-            csv_writer.writerow(row)
+    csv_file =  open(os.path.join('.', table_name + '.csv'), 'w')
+    csv_writer = csv.writer(csv_file)
+    csv_writer.writerow(column_names)
+    for row in table_contents:
+        csv_writer.writerow(row)
 
 def aggregate_and_convert(table, cursor):
     cursor.execute('SELECT * FROM %s' % table)
     column_names = [column_name[0] for column_name in cursor.description]
     if 'id' in column_names:
-        with open(os.path.join('.', table + '_aggregate.csv'), 'w') as csv_file:
-            csv_writer = csv.writer(csv_file)
-            column_names.remove('id')
-            column_names.remove('round')
-            sum_string = ','.join('sum(%s)' % item for item in column_names)
-            cursor.execute('SELECT round, ' + sum_string +' FROM ' + table + ' GROUP BY round;')
-            csv_writer.writerow(['round'] + column_names)
-            while True:
-                try:
-                    csv_writer.writerow(cursor.fetchone())
-                except csv.Error:
-                    break
+        csv_file = open(os.path.join('.', table + '_aggregate.csv'), 'w')
+        csv_writer = csv.writer(csv_file)
+        column_names.remove('id')
+        column_names.remove('round')
+        sum_string = ','.join('sum(%s)' % item for item in column_names)
+        cursor.execute('SELECT round, ' + sum_string +' FROM ' + table + ' GROUP BY round;')
+        csv_writer.writerow(['round'] + column_names)
+        while True:
+            try:
+                csv_writer.writerow(cursor.fetchone())
+            except csv.Error:
+                break
