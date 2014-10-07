@@ -64,6 +64,32 @@ http://www.anthonydebarros.com/2011/10/15/setting-up-python-in-windows-7/
 
 8. unzip abce_templates-0.3.zip
 
+Install on Macintosh
+———————————————————-
+
+1. download Stablerelease 4.0.4 from http://zeromq.org/area:download
+
+2. tar xzf tar xfz zeromq-4.0.4.tar.gz 
+
+3. Follow installation instructions in INSTALL file:
+
+   ./configure
+
+   make
+
+   sudo make install
+
+4. download the zip file from: https://github.com/DavoudTaghawiNejad/abce
+
+5. sudo python setup.py install
+
+If there is a problem with zmq:
+
+   sudo pip uninstall pyzmq
+
+   sudo pip install pyzmq
+
+
 
 
 
@@ -76,7 +102,10 @@ The installation has two parts. Installing the necessary software packages. Retr
  Alternative 1 as a zip (EASY):
 
     1. download the zip file from: https://github.com/DavoudTaghawiNejad/abce
+    
     2. extract zip file
+    
+    3. sudo python setup.py install
 
  Alternative 2 via git [2]_ in terminal (RECOMMENDED)::
 
