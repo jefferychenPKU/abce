@@ -229,8 +229,8 @@ class Simulation:
         self.communication_channel = self.context.socket(zmq.PUSH)
         self.communication_channel.connect(self._addresses_connect['frontend'])
         self._register_action_groups()
-        self._db = abce.db.Database(simulation_parameters['_path'], self.database_name, self._addresses_bind['database'])
-        self._logger = abce.abcelogger.AbceLogger(simulation_parameters['_path'], 'logger', self._addresses_bind['logger'])
+        self._db = db.Database(simulation_parameters['_path'], self.database_name, self._addresses_bind['database'])
+        self._logger = abcelogger.AbceLogger(simulation_parameters['_path'], 'logger', self._addresses_bind['logger'])
         self._db.start()
         self._logger.start()
 
